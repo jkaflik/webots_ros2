@@ -52,6 +52,10 @@ namespace webots_ros2_driver {
 
     mPublisher = mNode->create_publisher<sensor_msgs::msg::Imu>(mTopicName, rclcpp::SensorDataQoS().reliable());
     mMessage.header.frame_id = mFrameName;
+    if (!mInertialUnit) {
+      mMessage.orientation.w = 1.0;
+      mMessage.orientation_covariance[0] = -1.0;
+    }
 
     if (mAlwaysOn) {
       enable();
